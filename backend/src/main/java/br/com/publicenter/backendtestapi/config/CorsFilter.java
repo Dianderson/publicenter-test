@@ -13,17 +13,17 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
-    private final String originAccept = "http://localhost:8081";
+    private static final String ORIGIN_ACCEPT = "http://localhost:8081";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        response.setHeader("Access-Control-Allow-Origin", originAccept);
+        response.setHeader("Access-Control-Allow-Origin", ORIGIN_ACCEPT);
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        if ("OPTIONS".equals(request.getMethod()) && originAccept.equals(request.getHeader("Origin"))) {
+        if ("OPTIONS".equals(request.getMethod()) && ORIGIN_ACCEPT.equals(request.getHeader("Origin"))) {
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
             response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
             response.setHeader("Access-Control-Max-Age", "3600");

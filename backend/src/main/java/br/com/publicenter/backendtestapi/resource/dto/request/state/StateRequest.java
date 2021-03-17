@@ -1,6 +1,5 @@
 package br.com.publicenter.backendtestapi.resource.dto.request.state;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

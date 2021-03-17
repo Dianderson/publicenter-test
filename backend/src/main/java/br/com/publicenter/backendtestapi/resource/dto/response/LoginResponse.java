@@ -1,5 +1,6 @@
 package br.com.publicenter.backendtestapi.resource.dto.response;
 
+import br.com.publicenter.backendtestapi.repository.model.UserCustomer;
 import lombok.Data;
 
 @Data
@@ -9,10 +10,12 @@ public class LoginResponse {
     private String token;
     private String type;
 
-    public LoginResponse(String username, String roleName, String token, String type) {
-        this.username=username;
-        this.roleName=roleName;
-        this.token = token;
-        this.type = type;
+    public static LoginResponse of(UserCustomer userCustomer, String token, String tokenType) {
+        var response = new LoginResponse();
+        response.setUsername(userCustomer.getUsername());
+        response.setRoleName(userCustomer.getRoles().get(0).getRoleName());
+        response.setToken(token);
+        response.setType(tokenType);
+        return response;
     }
 }

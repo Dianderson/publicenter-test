@@ -1,12 +1,16 @@
-import VueRouter, { RouteConfig } from 'vue-router'
+import { RouteConfig } from 'vue-router'
 
 const routes: RouteConfig[] = [{
   path: '/',
-  component: () => import('src/layouts/Template.vue'),
+  component: () => import('layouts/MainLayout.vue'),
   children: [
     {
-      path: '/login',
-      component: () => import('src/pages/Login.vue')
+      path: '/',
+      redirect: '/main'
+    },
+    {
+      path: '/main',
+      component: () => import('src/pages/Main.vue')
     },
     {
       path: '/state',
@@ -14,8 +18,15 @@ const routes: RouteConfig[] = [{
     },
   ]
 },
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: '/login',
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [
+      {
+        path: '/login',
+        component: () => import('src/pages/Login.vue')
+      }]
+  },
   {
     path: '*',
     component: () => import('pages/Error404.vue')

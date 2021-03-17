@@ -17,7 +17,7 @@
             color="blue"
             icon="menu"
           />
-          <q-toolbar-title align="right">Publicenter Sistemas</q-toolbar-title>
+          <q-toolbar-title style="text-align: right">Publicenter Sistemas</q-toolbar-title>
           <q-btn
             flat
             round
@@ -46,8 +46,8 @@
             <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png"/>
             </q-avatar>
-            <div class="text-weight-bold">Dianderson Mendonça</div>
-            <div>Usuario: Master</div>
+            <div class="text-weight-bold" v-text="userLogged"></div>
+            <div v-text="roleLogged"></div>
           </div>
         </q-img>
 
@@ -143,14 +143,23 @@
 export default {
   data () {
     return {
+      userLogged: null,
+      roleLogged: null,
       drawer: false
     }
   },
   mounted () {
-
+    if (localStorage.getItem('user-name') == null || localStorage.getItem('user-name') === '') {
+      this.$router.push('/login')
+    } else {
+      this.userLogged = localStorage.getItem('user-name')
+      this.roleLogged = localStorage.getItem('user-role')
+    }
   },
   methods: {
     logout () {
+      localStorage.clear()
+      this.$router.push('/login')
     },
     pageSearchState () {
       this.$router.push('/state')

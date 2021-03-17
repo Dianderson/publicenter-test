@@ -3,7 +3,7 @@
     <q-layout view="lHh lpr lFf" container style="width: 98%;height: calc(800px - 85px)"
               class="shadow-2 rounded-borders">
       <q-header bordered class="bg-blue-grey-5">
-        <q-toolbar-title align="center">
+        <q-toolbar-title style="text-align: center">
           Pesquisar estado
         </q-toolbar-title>
       </q-header>
@@ -12,16 +12,16 @@
         <q-page padding class="bg-blue-grey-1" style="margin-top: -25px">
 
           <div class=" row flex-center">
-            <q-input v-model="text" label="Nome" style="width: 300px ;margin-inline: 20px"/>
-            <q-input v-model="text" label="Sigla" style=" width: 100px;margin-inline: 20px"/>
+            <q-input v-model="stateName" label="Nome" style="width: 300px ;margin-inline: 20px"/>
+            <q-input v-model="stateCode" label="Sigla" style=" width: 100px;margin-inline: 20px"/>
           </div>
 
           <div style="margin-top: 10px">
             <q-btn label="Pesquisar" type="submit" class="bg-blue-grey-4" color="white"
-                   style="width: 150px;height: 35px;margin: 10px" icon="search" @click="findAllState"/>
+                   style="width: 150px;height: 35px;margin: 10px" icon="search" @click="findStates"/>
 
             <q-btn label="Limpar" type="reset" class="bg-blue-grey-4" color="white"
-                   style="width: 135px;height: 35px;margin: 10px" icon="clear"/>
+                   style="width: 135px;height: 35px;margin: 10px" icon="clear" @click="clear"/>
 
             <q-btn label="Imprimir" type="submit" class="bg-blue-grey-4" color="white"
                    style="width: 135px;height: 35px;margin: 10px" icon="print"/>
@@ -35,6 +35,7 @@
               row-key="name"
               :pagination.sync="pagination"
               hide-pagination
+              hide-no-data
               separator="cell"
             >
               <template v-slot:body="props">
@@ -55,7 +56,6 @@
               </template>
             </q-table>
           </div>
-
           <q-footer elevated class="bg-blue-grey-7">
             <q-pagination
               v-model="pagination.page"
@@ -73,13 +73,15 @@
 </template>
 
 <script>
-
 import axios from 'axios'
 
 export default {
   name: 'PageSearchState',
   data () {
     return {
+      stateName: '',
+      stateCode: '',
+
       pagination: {
         sortBy: 'desc',
         descending: false,
@@ -118,10 +120,42 @@ export default {
   mounted () {
   },
   methods: {
-    findAllState () {
-      axios.get('http://localhost:8080/state').then(response => {
-        this.rows = response.data.content
+    findStates () {
+      let url = ''
+      if (this.stateName !== '' && this.stateCode === '') {
+        url = `http://localhost:8080/state/find-by-name?name=${this.stateName}`
+      } else if (this.stateName === '' && this.stateCode !== '') {
+        url = `http://localhost:8080/state/find-by-code?code=${this.stateCode}`
+      } else {
+        url = `http://localhost:8080/state/find-by-parameters?name=${this.stateName}&code=${this.stateCode}`
+      }
+      const instance = axios.create({
+        baseURL: url,
+        timeout: 1000,
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('user-token') }
       })
+      instance.get('')
+        .then(response => {
+            console.log(response)
+            this.rows = response.data.content
+          }, (error) => {
+            if (error.response.data.status === 403) {
+              this.$q.notify({
+                color: 'red-5',
+                textColor: 'white',
+                icon: 'warning',
+                message: error.response.data.message
+              })
+            }
+            this.$router.push('/login')
+          }
+        )
+    },
+
+    clear () {
+      this.stateName = ''
+      this.stateCode = ''
+      this.rows = []
     }
   },
   computed: {
@@ -132,6 +166,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

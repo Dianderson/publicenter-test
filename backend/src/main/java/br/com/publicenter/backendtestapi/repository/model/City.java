@@ -25,7 +25,7 @@ public class City {
     public static City of(CreateCityRequest request) {
         var city = new City();
         var state = new State();
-        state.setId(request.getState_id());
+        state.setId(request.getStateId());
         city.setName(request.getName());
         city.setState(state);
         return city;
@@ -34,7 +34,7 @@ public class City {
     public static City of(Long id, UpdateCityRequest request) {
         var city = new City();
         var state = new State();
-        state.setId(request.getState_id());
+        state.setId(request.getStateId());
         city.setId(id);
         city.setName(request.getName());
         city.setState(state);

@@ -12,7 +12,7 @@ public interface CityRepository extends CrudRepository<City, Long> {
 
     Page<City> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    Page<City> findAllByStateId(Long state_id, Pageable pageable);
+    Page<City> findAllByStateId(Long stateId, Pageable pageable);
 
-    Page<City> findAllByNameContainingIgnoreCaseOrStateId(String name, Long state_id, Pageable pageable);
+    Page<City> findAllByNameContainingIgnoreCaseOrStateId(String name, Long stateId, Pageable pageable);
 }

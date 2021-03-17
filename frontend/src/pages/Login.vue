@@ -8,12 +8,12 @@
         class="shadow-2 rounded-borders"
       >
         <q-header bordered class="bg-blue-grey-5">
-          <q-toolbar-title align="center">
+          <q-toolbar-title style="text-align: center">
             Login
           </q-toolbar-title>
         </q-header>
 
-        <q-page-container pading align="center" style="margin-top:40px">
+        <q-page-container pading style="margin-top:40px" align="center">
           <div class="q-pa-md" style="max-width: 400px">
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
               <q-input
@@ -66,7 +66,6 @@
               </div>
             </q-form>
           </div>
-          <q-btn class="bg-blue-grey-5" label="Botão" @click="testeRecuperaToken"/>
         </q-page-container>
       </q-layout>
     </div>
@@ -93,14 +92,21 @@ export default {
         {
           username: this.userName,
           password: this.password
-        }).then(token => {
-        console.log(token)
+        }).then(response => {
+
+        localStorage.setItem('user-name', response.data.username)
+        localStorage.setItem('user-token', response.data.token)
+        localStorage.setItem('user-role', response.data.roleName)
+        this.$router.push('/main')
+      }).catch(error => {
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'Dados inválidos'
+        })
       })
     },
-    testeRecuperaToken () {
-      console.log(localStorage.getItem('key'))
-    },
-
     onReset () {
       this.userName = null
       this.password = null

@@ -12,5 +12,5 @@ public abstract class CityRequest {
     @NotBlank
     private String name;
     @NotNull
-    private Long state_id;
+    private Long stateId;
 }

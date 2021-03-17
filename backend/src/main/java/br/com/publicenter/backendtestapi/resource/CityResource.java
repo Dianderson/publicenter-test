@@ -54,12 +54,12 @@ public class CityResource {
     }
 
     @GetMapping("/find-by-state")
-    public Page<CityResponse> findAllByState(@RequestParam(value = "state_id") Long state_id, Pageable pageable) {
+    public Page<CityResponse> findAllByState(@RequestParam(value = "stateId") Long state_id, Pageable pageable) {
         return cityService.findAllByState(state_id, pageable);
     }
 
     @GetMapping("/find-by-parameters")
-    public Page<CityResponse> findAllByNameOrState(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "state_id", required = false) Long state_id, Pageable pageable) {
-        return cityService.findAllByNameOrState(name, state_id, pageable);
+    public Page<CityResponse> findAllByNameOrState(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "stateId", required = false) Long stateId, Pageable pageable) {
+        return cityService.findAllByNameOrState(name, stateId, pageable);
     }
 }

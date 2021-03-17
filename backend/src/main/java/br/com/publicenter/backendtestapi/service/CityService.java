@@ -43,13 +43,13 @@ public class CityService {
     }
 
     @Cacheable(value = "cityState")
-    public Page<CityResponse> findAllByState(Long state_id, Pageable pageable) {
-        return cityRepository.findAllByStateId(state_id, pageable).map(CityResponse::of);
+    public Page<CityResponse> findAllByState(Long stateId, Pageable pageable) {
+        return cityRepository.findAllByStateId(stateId, pageable).map(CityResponse::of);
     }
 
     @Cacheable(value = "cityNameOrState")
-    public Page<CityResponse> findAllByNameOrState(String name, Long state_id, Pageable pageable) {
-        return cityRepository.findAllByNameContainingIgnoreCaseOrStateId(name, state_id, pageable).map(CityResponse::of);
+    public Page<CityResponse> findAllByNameOrState(String name, Long stateId, Pageable pageable) {
+        return cityRepository.findAllByNameContainingIgnoreCaseOrStateId(name, stateId, pageable).map(CityResponse::of);
     }
 
     @Cacheable(value = "cityFindAll")
