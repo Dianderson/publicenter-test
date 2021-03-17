@@ -19,7 +19,6 @@
               <q-input
                 v-model="userName"
                 label="Usuario"
-                lazy-rules
                 :rules="[
                   val =>
                     (val && val.length > 0) || 'Insira um usuário cadastrado'
@@ -30,7 +29,6 @@
                 v-model="password"
                 label="Senha"
                 :type="isPwd ? 'password' : 'text'"
-                lazy-rules
                 :rules="[
                   val => (val && val.length > 0) || 'Insira uma senha válida'
                 ]"
@@ -87,16 +85,28 @@ export default {
   },
 
   methods: {
-    onSubmit () {
-      axios.post('http://localhost:8080/auth',
-        {
-          username: this.userName,
-          password: this.password
-        }).then(response => {
+    genericRequest (method, url, dataRequest) {
+      const instance = axios.create({
+        method: method,
+        baseURL: url,
+        data: dataRequest,
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('user-token') }
+      })
+      return instance()
+    },
 
+    onSubmit () {
+      const method = 'post'
+      const url = 'http://localhost:8080/auth'
+      const dataRequest = {
+        username: this.userName,
+        password: this.password
+      }
+
+      this.genericRequest(method, url, dataRequest).then(response => {
         localStorage.setItem('user-name', response.data.username)
         localStorage.setItem('user-token', response.data.token)
-        localStorage.setItem('user-role', response.data.roleName)
+        localStorage.setItem('user-role', response.data.roleDescription)
         this.$router.push('/main')
       }).catch(error => {
         this.$q.notify({

@@ -27,13 +27,11 @@ public class CityResource {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public CityResponse update(@PathVariable Long id, @RequestBody @Valid UpdateCityRequest request) {
         return cityService.update(City.of(id, request));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         cityService.delete(id);
     }

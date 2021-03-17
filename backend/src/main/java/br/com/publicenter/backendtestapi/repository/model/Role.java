@@ -17,11 +17,13 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleName;
+    private String description;
 
     @Override
     public String getAuthority() {
         return this.roleName;
     }
+
     public static List<Role> of(String roleName) {
         return List.of(RoleEnum.of(roleName));
     }

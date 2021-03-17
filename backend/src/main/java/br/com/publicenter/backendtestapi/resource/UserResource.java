@@ -26,19 +26,16 @@ public class UserResource {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public UserResponse update(@PathVariable Long id, @RequestBody @Valid CreateUserRequest request) {
         return userService.update(UserCustomer.of(id, request));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public UserResponse findById(@PathVariable Long id) {
         return userService.findById(id);
     }

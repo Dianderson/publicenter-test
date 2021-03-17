@@ -6,14 +6,14 @@ import lombok.Data;
 @Data
 public class LoginResponse {
     private String username;
-    private String roleName;
+    private String roleDescription;
     private String token;
     private String type;
 
     public static LoginResponse of(UserCustomer userCustomer, String token, String tokenType) {
         var response = new LoginResponse();
         response.setUsername(userCustomer.getUsername());
-        response.setRoleName(userCustomer.getRoles().get(0).getRoleName());
+        response.setRoleDescription(userCustomer.getRoles().get(0).getDescription());
         response.setToken(token);
         response.setType(tokenType);
         return response;
