@@ -10,11 +10,23 @@ const routes: RouteConfig[] = [{
     },
     {
       path: '/main',
-      component: () => import('src/pages/Main.vue')
+      component: () => import('pages/PageMain.vue')
     },
     {
-      path: '/state',
+      path: '/search-state',
       component: () => import('src/pages/PageSearchState.vue')
+    },
+    {
+      path: '/create-state',
+      component: () => import('pages/PageCreateState.vue')
+    },
+    {
+      path: '/search-city',
+      component: () => import('src/pages/PageSearchCity.vue')
+    },
+    {
+      path: '/create-city',
+      component: () => import('pages/PageCreateCity.vue')
     },
   ]
 },
@@ -24,7 +36,7 @@ const routes: RouteConfig[] = [{
     children: [
       {
         path: '/login',
-        component: () => import('src/pages/Login.vue')
+        component: () => import('pages/PageLogin.vue')
       }]
   },
   {

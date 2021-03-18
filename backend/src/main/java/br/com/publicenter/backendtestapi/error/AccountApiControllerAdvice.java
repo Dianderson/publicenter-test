@@ -3,6 +3,7 @@ package br.com.publicenter.backendtestapi.error;
 import br.com.publicenter.backendtestapi.error.exception.EntityNotFoundException;
 import br.com.publicenter.backendtestapi.error.model.ErrorHandlerModel;
 import br.com.publicenter.backendtestapi.error.model.Message;
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -71,6 +72,22 @@ public class AccountApiControllerAdvice extends ResponseEntityExceptionHandler {
                 request);
     }
 
+    @ExceptionHandler(value = TransientPropertyValueException.class)
+    public ResponseEntity<Object> transientPropertyValue(TransientPropertyValueException ex, WebRequest request) {
+        final HttpStatus statusResponse = HttpStatus.BAD_REQUEST;
+        return super.handleExceptionInternal(
+                ex,
+                ErrorHandlerModel
+                        .builder()
+                        .errors(List.of(Message.builder().value(ex.getMessage()).build()))
+                        .httpStatus(HttpStatus.BAD_REQUEST.value())
+                        .timestamp(System.currentTimeMillis())
+                        .build(),
+                new HttpHeaders(),
+                statusResponse,
+                request);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             final MethodArgumentNotValidException ex,
@@ -131,4 +148,6 @@ public class AccountApiControllerAdvice extends ResponseEntityExceptionHandler {
                 Stream.concat(fv.entrySet().stream(), args.entrySet().stream());
         return combined.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+
+
 }

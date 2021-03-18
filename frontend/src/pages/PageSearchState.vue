@@ -4,7 +4,7 @@
               class="shadow-2 rounded-borders">
       <q-header bordered class="bg-blue-grey-5">
         <q-toolbar-title style="text-align: center">
-          Pesquisar estado
+          Pesquisa de estado
         </q-toolbar-title>
       </q-header>
 
@@ -16,15 +16,12 @@
             <q-input v-model="stateCode" label="Sigla" style=" width: 100px;margin-inline: 20px"/>
           </div>
 
-          <div style="margin-top: 10px">
+          <div style="margin-top: 25px">
             <q-btn label="Pesquisar" type="submit" class="bg-blue-grey-4" color="white"
-                   style="width: 150px;height: 35px;margin: 10px" icon="search" @click="findStates"/>
+                   style="width: 150px;height: 35px;margin-inline: 30px" icon="search" @click="findStates"/>
 
             <q-btn label="Limpar" type="reset" class="bg-blue-grey-4" color="white"
-                   style="width: 135px;height: 35px;margin: 10px" icon="clear" @click="clear"/>
-
-            <q-btn label="Imprimir" type="submit" class="bg-blue-grey-4" color="white"
-                   style="width: 135px;height: 35px;margin: 10px" icon="print"/>
+                   style="width: 135px;height: 35px;margin-inline: 30px" icon="clear" @click="clear"/>
           </div>
 
           <div class="q-pa-md" style="max-width: 800px">
@@ -65,20 +62,20 @@
                   <q-input class="bg-blue-grey-1" label="id:" v-model="stateId"
                            style="font-size: 18px; width: 40px" readonly/>
                   <q-input class="bg-blue-grey-1" label="Sigla:" v-model="stateCode"
-                           style="font-size: 20px;margin-top: 10px"
+                           style="font-size: 20px"
                            :rules="[val =>
                     (val && val.length > 0) || 'O campo deve estar preenchido']"/>
                   <q-input class="bg-blue-grey-1" label="Nome:" v-model="stateName"
-                           style="font-size: 20px;margin-top: 10px"
+                           style="font-size: 20px"
                            :rules="[val =>
                     (val && val.length > 0) || 'O campo deve estar preenchido']"/>
                 </div>
               </q-card-section>
               <q-card-actions class="bg-blue-grey-2" align="center">
-                <q-btn flat label="Confirmar" color="blue-grey-8" v-close-popup
-                       style="margin-inline: 50px; font-weight: bold" @click="updateStateConfirm"></q-btn>
+                <q-btn flat label="Salvar" color="blue-grey-8" v-close-popup
+                       style="margin-inline: 50px; font-weight: bold; width: 100px" @click="updateStateConfirm"></q-btn>
                 <q-btn flat label="Cancelar" color="blue-grey-8" v-close-popup
-                       style="margin-inline: 50px; font-weight: bold"></q-btn>
+                       style="margin-inline: 50px; font-weight: bold; width: 100px"></q-btn>
               </q-card-actions>
             </q-card>
           </q-dialog>
@@ -87,16 +84,16 @@
             <q-card>
               <q-card-section class="bg-blue-grey-1 row items-center">
                 <q-avatar icon="warning" color="red-5" text-color="white"></q-avatar>
-                <span class="q-ml-sm" style="font-size: 20px;margin-inline: 30px">Confirma a exclusão do registro abaixo?</span>
+                <span class="q-ml-sm" style="font-size: 20px;margin-inline: 30px">Deseja mesmo excluir o registro abaixo?</span>
               </q-card-section>
               <div class="bg-blue-grey-1" style="font-size: 20px; text-align: center">
                 {{ this.stateId + ' - ' + this.stateName + ' / ' + this.stateCode }}
               </div>
               <q-card-actions class="bg-blue-grey-2" align="center">
                 <q-btn flat label="Confirmar" color="red-5" v-close-popup
-                       style="margin-inline: 50px; font-weight: bold" @click="deleteStateConfirm"></q-btn>
+                       style="margin-inline: 50px; font-weight: bold; width: 100px" @click="deleteStateConfirm"></q-btn>
                 <q-btn flat label="Cancelar" color="red-5" v-close-popup
-                       style="margin-inline: 50px; font-weight: bold"></q-btn>
+                       style="margin-inline: 50px; font-weight: bold; width: 100px"></q-btn>
               </q-card-actions>
             </q-card>
           </q-dialog>
@@ -163,7 +160,7 @@ export default {
           style: 'width: 20%'
         }
       ],
-      rows: []
+      rows: [],
     }
   },
   mounted () {
@@ -190,7 +187,6 @@ export default {
       }
 
       this.genericRequest('get', url).then(response => {
-          console.log(response)
           this.rows = response.data.content
         }, (error) => {
           if (error.response.data.status === 403) {

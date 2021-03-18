@@ -162,13 +162,16 @@ export default {
       this.$router.push('/login')
     },
     pageSearchState () {
-      this.$router.push('/state')
+      this.$router.push('/search-state')
     },
     pageCreateState () {
+      this.$router.push('/create-state')
     },
     pageSearchCity () {
+      this.$router.push('/search-city')
     },
     pageCreateCity () {
+      this.$router.push('/create-city')
     }
   }
 }
